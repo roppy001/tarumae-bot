@@ -25,7 +25,7 @@ data/<br>
   　　stamina : 0 # スタミナ 1～9で指定<br>
   　　power : 0 # パワー 1～9で指定<br>
   　　guts : 0 # 根性 1～9で指定<br>
-　    wisdom : 0 # 賢さ 1～9で指定<br>
+  　　wisdom : 0 # 賢さ 1～9で指定<br>
   　　turf : 0 # 芝 1～9で指定<br>
   　　dirt : 0 # ダート 1～9で指定<br>
   　　short : 0 # 短距離 1～9で指定<br>
