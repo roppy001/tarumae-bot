@@ -1,0 +1,27 @@
+{
+	"gw" : {
+		"max_next_count" : 5 
+	},
+	"search_list" : [
+	{
+		"type" : "gw",
+		"name" : "スペシャルウィーク",
+		"daihyo" : false,
+		"speed" : 0,
+		"stamina" : 0,
+		"power" : 0,
+		"guts" : 0,
+		"wisdom" : 0,
+		"turf" : 0,
+		"dirt" : 0,
+		"short" : 0,
+		"mile" : 0,
+		"middle" : 0,
+		"long" : 0,
+		"nige" : 0,
+		"senkou" : 0,
+		"sashi" : 0,
+		"oikomi" : 0
+	}
+	]
+}
