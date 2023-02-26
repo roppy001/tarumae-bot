@@ -13,7 +13,7 @@ data/<br>
 # config.txt
 {<br>
 　"gw" : {<br>
-　　"max_next_search_count" : 5  # "もっと見る"の回数制限設定<br>
+　　"max_next_count" : 5  # "もっと見る"の回数制限設定<br>
 　},<br>
 　<br>
 　"search_list" : [<br>
