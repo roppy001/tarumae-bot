@@ -52,12 +52,12 @@ def scrape(gw_config, search, driver):
     tmp = search[common.SEARCH_SPEED_KEY]
     if tmp!=0:
         Select(blue_element.find_element(By.CSS_SELECTOR,"div > div:nth-of-type(1) > div > select")).select_by_visible_text(FACTOR_STRINGS[tmp])
-    time.sleep(1)
+
     # スタミナ因子
     tmp = search[common.SEARCH_STAMINA_KEY]
     if tmp!=0:
         Select(blue_element.find_element(By.CSS_SELECTOR,"div > div:nth-of-type(2) > div > select")).select_by_visible_text(FACTOR_STRINGS[tmp])
-    time.sleep(1)
+    
     # パワー因子
     tmp = search[common.SEARCH_POWER_KEY]
     if tmp!=0:
