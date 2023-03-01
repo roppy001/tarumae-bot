@@ -1,6 +1,6 @@
 {
 	"gw" : {
-		"max_next_count" : 5 
+		"max_next_count" : 2 
 	},
 	"search_list" : [
 	{
@@ -28,9 +28,9 @@
 		"name" : "",
 		"daihyo" : false,
 		"speed" : 0,
-		"stamina" : 0,
+		"stamina" : 9,
 		"power" : 0,
-		"guts" : 9,
+		"guts" : 0,
 		"wisdom" : 0,
 		"turf" : 0,
 		"dirt" : 0,
