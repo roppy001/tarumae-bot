@@ -2,8 +2,11 @@
 CONFIG_PATH = "config/config.txt"
 CONFIG_GW_KEY = "gw"
 CONFIG_SEARCH_LIST_KEY = "search_list"
+CONFIG_ID_HISTORY_COUNT_MAX_KEY = "id_history_max_count"
 
 CONFIG_GW_MAX_NEXT_COUNT_KEY = "max_next_count"
+
+DATA_DIRECTORY = "data"
 
 SEARCH_TYPE_KEY = "type"
 SEARCH_NAME_KEY = "name"

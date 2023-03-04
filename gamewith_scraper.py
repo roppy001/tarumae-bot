@@ -12,7 +12,7 @@ import common
 
 FACTOR_STRINGS = ["-","☆1","☆2","☆3","☆4","☆5","☆6","☆7","☆8","☆9"]
 
-def scrape(gw_config, search, driver):
+def scrape(gw_config, search, driver, id_history_list):
     max_next_count = gw_config[common.CONFIG_GW_MAX_NEXT_COUNT_KEY]
 
     # フレンド募集掲示板を開く
@@ -140,8 +140,8 @@ def scrape(gw_config, search, driver):
 
     result = []
 
-    for i in range(max_next_count):
-        if i!=0:
+    for next_count in range(max_next_count):
+        if next_count!=0:
             try:
                 result_next = friends_list_sr.find_element(By.CSS_SELECTOR, "div > div.-r-umamusume-friends-list__list-wrap > button.-r-umamusume-friends-button")
                 common.scroll_element(driver, result_next)
@@ -162,11 +162,17 @@ def scrape(gw_config, search, driver):
 
             player_factor_elements = result_player_element.find_elements(By.CSS_SELECTOR, "ul > li > span")
 
+            id = player_id_element.text
+
+            # もし履歴にあるIDにヒットした場合は検索を終了する
+            if id in id_history_list:
+                return result_list
+
             elm = {}
             
             elm[common.RESULT_TYPE_KEY] = common.TYPE_GW
 
-            elm[common.RESULT_ID_KEY] = player_id_element.text
+            elm[common.RESULT_ID_KEY] = id
 
             elm[common.RESULT_FACTOR_LIST_KEY] = []
 
