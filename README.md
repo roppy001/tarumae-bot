@@ -12,6 +12,7 @@ data/<br>
 
 # config.txt
 {<br>
+　"id_history_max_count" : 5 # 過去検索済みIDの保存量
 　"gw" : {<br>
 　　"max_next_count" : 5  # "もっと見る"の回数制限設定<br>
 　},<br>
