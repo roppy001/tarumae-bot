@@ -57,7 +57,7 @@ def scrape(gw_config, search, driver):
     tmp = search[common.SEARCH_STAMINA_KEY]
     if tmp!=0:
         Select(blue_element.find_element(By.CSS_SELECTOR,"div > div:nth-of-type(2) > div > select")).select_by_visible_text(FACTOR_STRINGS[tmp])
-    
+
     # パワー因子
     tmp = search[common.SEARCH_POWER_KEY]
     if tmp!=0:
@@ -138,6 +138,8 @@ def scrape(gw_config, search, driver):
     search_element.click()
     time.sleep(1)
 
+    result = []
+
     for i in range(max_next_count):
         if i!=0:
             try:
@@ -150,6 +152,8 @@ def scrape(gw_config, search, driver):
             except NoSuchElementException:
                 break
 
+        result_list = []
+
         result_player_elements = friends_list_sr.find_elements(By.CSS_SELECTOR, "div > div.-r-umamusume-friends-list__list-wrap > ul > li > div.-r-umamusume-friends-list-item__contents")
         time.sleep(1)
 
@@ -158,14 +162,20 @@ def scrape(gw_config, search, driver):
 
             player_factor_elements = result_player_element.find_elements(By.CSS_SELECTOR, "ul > li > span")
 
-            str = player_id_element.text
+            elm = {}
+            
+            elm[common.RESULT_TYPE_KEY] = common.TYPE_GW
+
+            elm[common.RESULT_ID_KEY] = player_id_element.text
+
+            elm[common.RESULT_FACTOR_LIST_KEY] = []
 
             for player_factor_element in player_factor_elements:
-                str += ", " + player_factor_element.text
+                f = {}
+                f[common.FACTOR_NAME_KEY] = player_factor_element.text
+                elm[common.RESULT_FACTOR_LIST_KEY].append(f)
 
-            print(str)
+            result_list.append(elm)
 
-
-
-    return
+    return result_list
     

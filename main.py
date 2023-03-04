@@ -30,7 +30,9 @@ def main():
     driver = webdriver.Chrome()
 
     for search in search_list:
-        gamewith_scraper.scrape(gw_config, search, driver)
+        result_list = gamewith_scraper.scrape(gw_config, search, driver)
+
+        print(json.dumps(result_list, indent=2, ensure_ascii=False ))
 
     driver.quit()
 

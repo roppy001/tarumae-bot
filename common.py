@@ -29,6 +29,13 @@ SEARCH_SENKOU_KEY = "senkou"
 SEARCH_SASHI_KEY = "sashi"
 SEARCH_OIKOMI_KEY = "oikomi"
 
+RESULT_ID_KEY = "id"
+RESULT_TYPE_KEY = "type"
+RESULT_FACTOR_LIST_KEY = "factor_list"
+FACTOR_NAME_KEY = "name"
+
+TYPE_GW = "gw"
+
 def scroll_element(driver, element):
     driver.execute_script("arguments[0].scrollIntoView(true);", element)
     return
