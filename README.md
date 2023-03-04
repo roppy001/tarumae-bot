@@ -41,4 +41,15 @@ data/<br>
 <br>
 }<br>
 <br>
-
+# 抽出結果返却値
+[<br>
+{<br>
+　"type" : "gw",<br>
+　"id" : "123456789",<br>
+　"factor_list" : [<br>
+　　　{<br>
+　　　　"name" : "マイル9"<br>
+　　　}<br>
+　　]<br>
+}<br>
+]<br>
