@@ -42,7 +42,7 @@ data/<br>
 }<br>
 <br>
 # 抽出結果返却値
-
+[<br>
 {<br>
 　"id" : "123456789",<br>
 　"factor_list" : [<br>
@@ -51,3 +51,4 @@ data/<br>
 　　　}<br>
 　　]<br>
 }<br>
+]<br>
