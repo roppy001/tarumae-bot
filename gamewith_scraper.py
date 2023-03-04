@@ -154,13 +154,21 @@ def scrape(gw_config, search, driver, id_history_list):
 
         result_list = []
 
-        result_player_elements = friends_list_sr.find_elements(By.CSS_SELECTOR, "div > div.-r-umamusume-friends-list__list-wrap > ul > li > div.-r-umamusume-friends-list-item__contents")
+        result_player_elements = friends_list_sr.find_elements(By.CSS_SELECTOR, "div > div.-r-umamusume-friends-list__list-wrap > ul > li")
         time.sleep(1)
 
         for result_player_element in result_player_elements:
-            player_id_element = result_player_element.find_element(By.CSS_SELECTOR, "div > p")
 
-            player_factor_elements = result_player_element.find_elements(By.CSS_SELECTOR, "ul > li > span")
+            player_id_element = result_player_element.find_element(By.CSS_SELECTOR, "div.-r-umamusume-friends-list-item__contents div > p")
+
+            player_factor_elements = result_player_element.find_elements(By.CSS_SELECTOR, "div.-r-umamusume-friends-list-item__contents ul > li > span")
+
+            img_file=""
+            try:
+                player_icon_element = result_player_element.find_element(By.CSS_SELECTOR, "div.-r-umamusume-friends-list-item__mainUmaMusume-wrap > img")
+                img_file = player_icon_element.get_attribute("src")
+            except NoSuchElementException:
+                pass
 
             id = player_id_element.text
 
@@ -173,6 +181,8 @@ def scrape(gw_config, search, driver, id_history_list):
             elm[common.RESULT_TYPE_KEY] = common.TYPE_GW
 
             elm[common.RESULT_ID_KEY] = id
+
+            elm[common.RESULT_IMG_FILE_KEY] = img_file
 
             elm[common.RESULT_FACTOR_LIST_KEY] = []
 

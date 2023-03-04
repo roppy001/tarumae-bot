@@ -32,8 +32,9 @@ SEARCH_SENKOU_KEY = "senkou"
 SEARCH_SASHI_KEY = "sashi"
 SEARCH_OIKOMI_KEY = "oikomi"
 
-RESULT_ID_KEY = "id"
 RESULT_TYPE_KEY = "type"
+RESULT_ID_KEY = "id"
+RESULT_IMG_FILE_KEY = "img_file"
 RESULT_FACTOR_LIST_KEY = "factor_list"
 FACTOR_NAME_KEY = "name"
 
