@@ -47,6 +47,7 @@ data/<br>
 {<br>
 　"type" : "gw",<br>
 　"id" : "123456789",<br>
+　"img_file" : "i_10.png",<br>
 　"factor_list" : [<br>
 　　　{<br>
 　　　　"name" : "マイル9"<br>
