@@ -41,4 +41,13 @@ data/<br>
 <br>
 }<br>
 <br>
+# 抽出結果返却値
 
+{<br>
+　"id" : "123456789",
+　"factor_list" : [<br>
+　　　{<br>
+　　　　"name" : "マイル9"
+　　　}<br>
+　　]<br>
+}<br>
