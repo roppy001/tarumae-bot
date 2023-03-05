@@ -2,6 +2,8 @@ import time
 import json
 import hashlib
 import os
+import datetime
+import asyncio
 
 import chromedriver_binary
 
@@ -62,12 +64,18 @@ def save_id_history(search_hash, id_list):
 def get_json_md5(str):
     return hashlib.md5(json.dumps(str).encode('utf-8')).hexdigest()
 
+# 現在時刻のフォーマットを取得
+def now_str():
+    return datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
 # 起動時に動作する処理
 @client.event
 async def on_ready():
     channel = await client.fetch_channel(CHANNEL_ID)
 
     while True:
+        print("["+now_str()+ "] start searching")
+
         config = load_config()
 
         id_history_max_count = config[common.CONFIG_ID_HISTORY_COUNT_MAX_KEY]
@@ -103,7 +111,9 @@ async def on_ready():
 
         driver.quit()
 
-        time.sleep(config[common.CONFIG_SEARCH_INTERVAL_KEY])
+        print("["+now_str()+ "] end searching")
+
+        await asyncio.sleep(config[common.CONFIG_SEARCH_INTERVAL_KEY])
 
     return
 
