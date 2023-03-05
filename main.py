@@ -1,15 +1,19 @@
 import time
 import json
 import hashlib
+import os
 
 import chromedriver_binary
 
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
+import discord
+
 import common
 import gamewith_scraper
 
+BOT_TOKEN=os.getenv('TARUMAE_BOT_TOKEN')
 
 # 設定ファイル読込
 def load_config():
@@ -51,6 +55,9 @@ def get_json_md5(str):
 
 def main():
     config = load_config()
+
+    client = discord.Client()
+    client.run(BOT_TOKEN)
 
     id_history_max_count = config[common.CONFIG_ID_HISTORY_COUNT_MAX_KEY]
 
