@@ -206,8 +206,11 @@ async def send_message(gw_config, channel, role_id, elm):
     for factor in elm[common.RESULT_FACTOR_LIST_KEY]:
         message += factor[common.FACTOR_NAME_KEY] + " "
     message += "\n"
-    if common.RESULT_MAIN_IMG_KEY in elm:
-        message += elm[common.RESULT_MAIN_IMG_KEY][common.IMG_URL_KEY] + "\n"
+
+    img = elm[common.RESULT_MAIN_IMG_KEY]
+
+    if common.IMG_URL_KEY in img:
+        message += img[common.IMG_URL_KEY] + "\n"
 
     await channel.send(message)
 
