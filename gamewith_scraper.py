@@ -8,6 +8,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 from selenium.common.exceptions import NoSuchElementException
 
+import discord
+
 import common
 
 FACTOR_STRINGS = ["-","☆1","☆2","☆3","☆4","☆5","☆6","☆7","☆8","☆9"]
@@ -196,4 +198,17 @@ def scrape(gw_config, search, driver, id_history_list):
             result_list.append(elm)
 
     return result_list
-    
+
+async def send_message(gw_config, channel, role_id, elm):
+    message = f'<@&{role_id}> \n'
+    message += "トレーナーID: " + elm[common.RESULT_ID_KEY] + "\n"
+    message += "因子: "
+    for factor in elm[common.RESULT_FACTOR_LIST_KEY]:
+        message += factor[common.FACTOR_NAME_KEY] + " "
+    message += "\n"
+    if common.RESULT_MAIN_IMG_KEY in elm:
+        message += elm[common.RESULT_MAIN_IMG_KEY][common.IMG_URL_KEY] + "\n"
+
+    await channel.send(message)
+
+    return

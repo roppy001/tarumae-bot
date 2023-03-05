@@ -16,6 +16,9 @@ import gamewith_scraper
 
 BOT_TOKEN=os.getenv('TARUMAE_BOT_TOKEN')
 HEADLESS_STR=os.getenv('TARUMAE_BOT_HEADLESS')
+CHANNEL_ID=os.getenv('TARUMAE_BOT_CHANNEL')
+ROLE_ID=os.getenv('TARUMAE_BOT_ROLE_ID')
+
 HEADLESS = HEADLESS_STR and HEADLESS_STR.lower() in ["on","yes"]
 
 its = discord.Intents.default()
@@ -62,6 +65,8 @@ def get_json_md5(str):
 # 起動時に動作する処理
 @client.event
 async def on_ready():
+    channel = await client.fetch_channel(CHANNEL_ID)
+
     while True:
         config = load_config()
 
@@ -87,8 +92,8 @@ async def on_ready():
             try:
                 result_list = gamewith_scraper.scrape(gw_config, search, driver, id_history_list)
 
-                print(json.dumps(result_list, indent=2, ensure_ascii=False ))
-
+                for result in result_list:
+                    await gamewith_scraper.send_message(gw_config, channel, ROLE_ID, result)
                 # 検索した結果のIDリストを履歴の先頭に追加し、保存最大数を超えるIDを削除
                 id_history_list = (list(map(lambda x: x[common.RESULT_ID_KEY], result_list)) + id_history_list)[: id_history_max_count]
 
