@@ -2,7 +2,6 @@ echo off
 
 cd /d %~dp0
 
-mkdir log
-mkdir data
+set TARUMAE_BOT_HEADLESS=YES
 
-python -u main.py >> log\console.log 2>> log\error.log
+run_tarumae_gui.bat

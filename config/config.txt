@@ -1,4 +1,5 @@
 {
+	"search_interval" : 1200,
 	"id_history_max_count" : 5,
 	"gw" : {
 		"max_next_count" : 2 

@@ -7,6 +7,7 @@ import chromedriver_binary
 
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.chrome.options import Options
 
 import discord
 
@@ -14,6 +15,8 @@ import common
 import gamewith_scraper
 
 BOT_TOKEN=os.getenv('TARUMAE_BOT_TOKEN')
+HEADLESS_STR=os.getenv('TARUMAE_BOT_HEADLESS')
+HEADLESS = HEADLESS_STR and HEADLESS_STR.lower() in ["on","yes"]
 
 its = discord.Intents.default()
 client = discord.Client(intents=its)
@@ -59,32 +62,43 @@ def get_json_md5(str):
 # 起動時に動作する処理
 @client.event
 async def on_ready():
-    config = load_config()
+    while True:
+        config = load_config()
 
-    id_history_max_count = config[common.CONFIG_ID_HISTORY_COUNT_MAX_KEY]
+        id_history_max_count = config[common.CONFIG_ID_HISTORY_COUNT_MAX_KEY]
 
-    gw_config = config[common.CONFIG_GW_KEY]
+        gw_config = config[common.CONFIG_GW_KEY]
 
-    search_list = config[common.CONFIG_SEARCH_LIST_KEY]
+        search_list = config[common.CONFIG_SEARCH_LIST_KEY]
 
-    driver = webdriver.Chrome()
+        # Chromeを起動
+        options = Options()
+        if HEADLESS:
+            options.add_argument('--headless')
 
-    for search in search_list:
-        # 検索設定を保存するためのファイル名を決めるため、検索設定をMD5ハッシュ値に変換
-        search_hash = get_json_md5(search)
-        # ID履歴を取得
-        id_history_list = load_id_history(search_hash)
+        driver = webdriver.Chrome(chrome_options=options)
 
-        result_list = gamewith_scraper.scrape(gw_config, search, driver, id_history_list)
+        for search in search_list:
+            # 検索設定を保存するためのファイル名を決めるため、検索設定をMD5ハッシュ値に変換
+            search_hash = get_json_md5(search)
+            # ID履歴を取得
+            id_history_list = load_id_history(search_hash)
 
-        print(json.dumps(result_list, indent=2, ensure_ascii=False ))
+            try:
+                result_list = gamewith_scraper.scrape(gw_config, search, driver, id_history_list)
 
-        # 検索した結果のIDリストを履歴の先頭に追加し、保存最大数を超えるIDを削除
-        id_history_list = (list(map(lambda x: x[common.RESULT_ID_KEY], result_list)) + id_history_list)[: id_history_max_count]
+                print(json.dumps(result_list, indent=2, ensure_ascii=False ))
 
-        save_id_history(search_hash, id_history_list)
+                # 検索した結果のIDリストを履歴の先頭に追加し、保存最大数を超えるIDを削除
+                id_history_list = (list(map(lambda x: x[common.RESULT_ID_KEY], result_list)) + id_history_list)[: id_history_max_count]
 
-    driver.quit()
+                save_id_history(search_hash, id_history_list)
+            except NoSuchElementException:
+                pass
+
+        driver.quit()
+
+        time.sleep(config[common.CONFIG_SEARCH_INTERVAL_KEY])
 
     return
 
