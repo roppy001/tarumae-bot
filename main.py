@@ -15,6 +15,9 @@ import gamewith_scraper
 
 BOT_TOKEN=os.getenv('TARUMAE_BOT_TOKEN')
 
+its = discord.Intents.default()
+client = discord.Client(intents=its)
+
 # 設定ファイル読込
 def load_config():
     fp = open(common.CONFIG_PATH, 'r', encoding="utf-8")
@@ -53,11 +56,10 @@ def save_id_history(search_hash, id_list):
 def get_json_md5(str):
     return hashlib.md5(json.dumps(str).encode('utf-8')).hexdigest()
 
-def main():
+# 起動時に動作する処理
+@client.event
+async def on_ready():
     config = load_config()
-
-    client = discord.Client()
-    client.run(BOT_TOKEN)
 
     id_history_max_count = config[common.CONFIG_ID_HISTORY_COUNT_MAX_KEY]
 
@@ -86,4 +88,4 @@ def main():
 
     return
 
-main()
+client.run(BOT_TOKEN)
