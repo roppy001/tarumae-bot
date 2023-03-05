@@ -34,7 +34,8 @@ SEARCH_OIKOMI_KEY = "oikomi"
 
 RESULT_TYPE_KEY = "type"
 RESULT_ID_KEY = "id"
-RESULT_IMG_FILE_KEY = "img_file"
+RESULT_MAIN_IMG_KEY = "main_img"
+IMG_URL_KEY = "url"
 RESULT_FACTOR_LIST_KEY = "factor_list"
 FACTOR_NAME_KEY = "name"
 

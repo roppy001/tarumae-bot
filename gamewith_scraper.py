@@ -163,10 +163,12 @@ def scrape(gw_config, search, driver, id_history_list):
 
             player_factor_elements = result_player_element.find_elements(By.CSS_SELECTOR, "div.-r-umamusume-friends-list-item__contents ul > li > span")
 
-            img_file=""
+            # 代表ウマ娘情報を取れた場合はurl情報を、取れなかった場合は空の連想配列を設定
+            main_img={}
             try:
                 player_icon_element = result_player_element.find_element(By.CSS_SELECTOR, "div.-r-umamusume-friends-list-item__mainUmaMusume-wrap > img")
-                img_file = player_icon_element.get_attribute("src")
+                img_url = player_icon_element.get_attribute("src")
+                main_img[common.IMG_URL_KEY] = img_url
             except NoSuchElementException:
                 pass
 
@@ -182,7 +184,7 @@ def scrape(gw_config, search, driver, id_history_list):
 
             elm[common.RESULT_ID_KEY] = id
 
-            elm[common.RESULT_IMG_FILE_KEY] = img_file
+            elm[common.RESULT_MAIN_IMG_KEY] = main_img
 
             elm[common.RESULT_FACTOR_LIST_KEY] = []
 
