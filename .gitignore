@@ -131,4 +131,5 @@ dmypy.json
 # tarumae-bot
 data/
 log/
+config/config.txt
 
