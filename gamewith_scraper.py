@@ -1,5 +1,6 @@
 import time
 import json
+import asyncio
 
 import chromedriver_binary
 
@@ -131,6 +132,7 @@ async def scrape(config, search, driver, id_history_list):
     common.scroll_element(driver, search_element)
 
     search_element.click()
+    await asyncio.sleep(1)
 
     result = []
 
