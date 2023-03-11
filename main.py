@@ -112,7 +112,7 @@ async def on_ready():
                     result_list = await umadb_scraper.scrape(gw_config, search, driver, id_history_list)
 
                     for result in result_list:
-                        await gamewith_scraper.send(gw_config, channel, ROLE_ID, result)
+                        await umadb_scraper.send(gw_config, channel, ROLE_ID, result)
 
                 # 検索した結果のIDリストを履歴の先頭に追加し、保存最大数を超えるIDを削除
                 id_history_list = (list(map(lambda x: x[common.RESULT_ID_KEY], result_list)) + id_history_list)[: id_history_max_count]

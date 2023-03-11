@@ -20,6 +20,9 @@ async def scrape(config, search, driver, id_history_list):
     # ウマ娘DBを開く
     driver.get("https://uma.pure-db.com/#/search")
 
+    blue_add_element = driver.find_element(By.CSS_SELECTOR,
+        "#__BVID__34 > div > button")
+
     await asyncio.sleep(100)
 
     return []
