@@ -89,7 +89,7 @@ async def on_ready():
         if HEADLESS:
             options.add_argument('--headless')
 
-        driver = webdriver.Chrome(chrome_options=options)
+        driver = webdriver.Chrome(options=options)
 
         for search in search_list:
             # 検索設定を保存するためのファイル名を決めるため、検索設定をMD5ハッシュ値に変換
@@ -98,7 +98,7 @@ async def on_ready():
             id_history_list = load_id_history(search_hash)
 
             try:
-                result_list = gamewith_scraper.scrape(gw_config, search, driver, id_history_list)
+                result_list = await gamewith_scraper.scrape(gw_config, search, driver, id_history_list)
 
                 for result in result_list:
                     await gamewith_scraper.send_message(gw_config, channel, ROLE_ID, result)

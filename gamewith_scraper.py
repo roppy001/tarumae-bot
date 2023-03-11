@@ -14,19 +14,17 @@ import common
 
 FACTOR_STRINGS = ["-","☆1","☆2","☆3","☆4","☆5","☆6","☆7","☆8","☆9"]
 
-def scrape(gw_config, search, driver, id_history_list):
+async def scrape(gw_config, search, driver, id_history_list):
     max_next_count = gw_config[common.CONFIG_GW_MAX_NEXT_COUNT_KEY]
 
     # フレンド募集掲示板を開く
     driver.get("https://gamewith.jp/uma-musume/article/show/260740")
-    time.sleep(1)
 
     # 詳細条件を指定して検索の画面に遷移してクリック
     friends_list = driver.find_element(By.CSS_SELECTOR, "gds-umamusume-friends-list")
     common.scroll_element(driver, friends_list)
     friends_list_sr = friends_list.shadow_root
     friends_list_sr.find_element(By.CSS_SELECTOR, ".-r-umamusume-friends-list__search-wrap button").click()
-    time.sleep(1)
 
     # 育成ウマ娘指定
     tmp = search[common.SEARCH_NAME_KEY]
@@ -48,7 +46,6 @@ def scrape(gw_config, search, driver, id_history_list):
     blue_element = friends_list_sr.find_element(By.CSS_SELECTOR,
         "div.-r-common-modal__container ul > li:nth-of-type(5)")
     common.scroll_element(driver, blue_element)
-    time.sleep(1)
 
     # スピード因子
     tmp = search[common.SEARCH_SPEED_KEY]
@@ -73,13 +70,11 @@ def scrape(gw_config, search, driver, id_history_list):
     tmp = search[common.SEARCH_WISDOM_KEY]
     if tmp!=0:
         Select(blue_element.find_element(By.CSS_SELECTOR,"div > div:nth-of-type(5) > div > select")).select_by_visible_text(FACTOR_STRINGS[tmp])
-    time.sleep(1)
 
     # 赤因子選択位置にスクロール
     red_element = friends_list_sr.find_element(By.CSS_SELECTOR,
         "div.-r-common-modal__container ul > li:nth-of-type(6)")
     common.scroll_element(driver, red_element)
-    time.sleep(1)
 
     # 芝因子
     tmp = search[common.SEARCH_TURF_KEY]
@@ -130,15 +125,12 @@ def scrape(gw_config, search, driver, id_history_list):
     tmp = search[common.SEARCH_OIKOMI_KEY]
     if tmp!=0:
         Select(red_element.find_element(By.CSS_SELECTOR,"div > div:nth-of-type(10) > div > select")).select_by_visible_text(FACTOR_STRINGS[tmp])
-    time.sleep(1)
 
     search_element = friends_list_sr.find_element(By.CSS_SELECTOR,
         "div.-r-common-modal__container .-r-umamusume-friends-button")
     common.scroll_element(driver, search_element)
-    time.sleep(1)
 
     search_element.click()
-    time.sleep(1)
 
     result = []
 
