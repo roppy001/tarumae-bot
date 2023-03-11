@@ -38,8 +38,11 @@ async def scrape(config, search, driver, id_history_list):
     # ウマ娘DBを開く
     driver.get("https://uma.pure-db.com/#/search")
 
-    blue_factor_list = [ (common.SEARCH_STAMINA_KEY, 3),(common.SEARCH_SPEED_KEY, 2),(common.SEARCH_WISDOM_KEY, 1),(common.SEARCH_POWER_KEY, 3),(common.SEARCH_GUTS_KEY, 2)]
-    #blue_factor_list = [ (common.SEARCH_STAMINA_KEY, 3),(common.SEARCH_SPEED_KEY, 2)]
+    blue_factor_list = []
+    for k in [common.SEARCH_SPEED_KEY, common.SEARCH_STAMINA_KEY, common.SEARCH_POWER_KEY, common.SEARCH_GUTS_KEY, common.SEARCH_WISDOM_KEY]:
+        tmp = search[k]
+        if tmp!=0:
+            blue_factor_list.append((k, tmp))
 
     common.scroll_element(driver, driver.find_element(By.CSS_SELECTOR,"#__BVID__34"))
 
@@ -48,6 +51,7 @@ async def scrape(config, search, driver, id_history_list):
         blue_add_element = driver.find_element(By.CSS_SELECTOR,
             "#__BVID__34 > div > button")
         blue_add_element.click()
+        await asyncio.sleep(1)
 
         blue_type_pulldown_element = driver.find_element(By.CSS_SELECTOR,
             "#__BVID__34 > div > div:nth-child("+str(i)+") > div:nth-of-type(1) > div > div > div.gb-field-select__field.js-tag-for-autofocus > i")
@@ -66,7 +70,13 @@ async def scrape(config, search, driver, id_history_list):
 
         i = i + 1
 
-    red_factor_list = [ (common.SEARCH_TURF_KEY, 3),(common.SEARCH_OIKOMI_KEY, 6)]
+    red_factor_list = []
+    for k in [common.SEARCH_TURF_KEY, common.SEARCH_DIRT_KEY, 
+              common.SEARCH_SHORT_KEY, common.SEARCH_MILE_KEY, common.SEARCH_MIDDLE_KEY, common.SEARCH_LONG_KEY,
+              common.SEARCH_NIGE_KEY, common.SEARCH_SENKOU_KEY, common.SEARCH_SASHI_KEY, common.SEARCH_OIKOMI_KEY]:
+        tmp = search[k]
+        if tmp!=0:
+            red_factor_list.append((k, tmp))
 
     common.scroll_element(driver, driver.find_element(By.CSS_SELECTOR,"#__BVID__35"))
 
@@ -75,6 +85,7 @@ async def scrape(config, search, driver, id_history_list):
         red_add_element = driver.find_element(By.CSS_SELECTOR,
             "#__BVID__35 > div > button")
         red_add_element.click()
+        await asyncio.sleep(1)
 
         red_type_pulldown_element = driver.find_element(By.CSS_SELECTOR,
             "#__BVID__35 > div > div:nth-child("+str(i)+") > div:nth-of-type(1) > div > div > div.gb-field-select__field.js-tag-for-autofocus > i")
@@ -93,6 +104,11 @@ async def scrape(config, search, driver, id_history_list):
 
         i = i + 1
 
+    search_element = driver.find_element(By.CSS_SELECTOR,
+            "#app > div > div > div.btn-group > button.btn.btn-primary")
+
+    common.scroll_element(driver, search_element)
+    search_element.click()
 
     await asyncio.sleep(100)
 
