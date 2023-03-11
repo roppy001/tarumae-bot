@@ -4,6 +4,8 @@
 	"gw" : {
 		"max_next_count" : 2 
 	},
+	"umadb" : {
+	},
 	"search_list" : [
 	{
 		"type" : "gw",

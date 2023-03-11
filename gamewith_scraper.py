@@ -14,8 +14,8 @@ import common
 
 FACTOR_STRINGS = ["-","☆1","☆2","☆3","☆4","☆5","☆6","☆7","☆8","☆9"]
 
-async def scrape(gw_config, search, driver, id_history_list):
-    max_next_count = gw_config[common.CONFIG_GW_MAX_NEXT_COUNT_KEY]
+async def scrape(config, search, driver, id_history_list):
+    max_next_count = config[common.CONFIG_GW_MAX_NEXT_COUNT_KEY]
 
     # フレンド募集掲示板を開く
     driver.get("https://gamewith.jp/uma-musume/article/show/260740")
@@ -191,7 +191,7 @@ async def scrape(gw_config, search, driver, id_history_list):
 
     return result_list
 
-async def send_message(gw_config, channel, role_id, elm):
+async def send(config, channel, role_id, elm):
     message = f'<@&{role_id}> \n'
     message += "トレーナーID: " + elm[common.RESULT_ID_KEY] + "\n"
     message += "因子: "
