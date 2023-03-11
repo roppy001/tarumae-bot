@@ -3,6 +3,7 @@ CONFIG_PATH = "config/config.txt"
 CONFIG_SEARCH_INTERVAL_KEY = "search_interval"
 CONFIG_ID_HISTORY_COUNT_MAX_KEY = "id_history_max_count"
 CONFIG_GW_KEY = "gw"
+CONFIG_UMADB_KEY = "umadb"
 CONFIG_SEARCH_LIST_KEY = "search_list"
 
 CONFIG_GW_MAX_NEXT_COUNT_KEY = "max_next_count"
@@ -41,6 +42,7 @@ RESULT_FACTOR_LIST_KEY = "factor_list"
 FACTOR_NAME_KEY = "name"
 
 TYPE_GW = "gw"
+TYPE_UMADB = "umadb"
 
 def scroll_element(driver, element):
     driver.execute_script("arguments[0].scrollIntoView(true);", element)

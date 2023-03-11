@@ -15,6 +15,7 @@ import discord
 
 import common
 import gamewith_scraper
+import umadb_scraper
 
 BOT_TOKEN=os.getenv('TARUMAE_BOT_TOKEN')
 HEADLESS_STR=os.getenv('TARUMAE_BOT_HEADLESS')
@@ -98,10 +99,21 @@ async def on_ready():
             id_history_list = load_id_history(search_hash)
 
             try:
-                result_list = await gamewith_scraper.scrape(gw_config, search, driver, id_history_list)
+                t = search[common.SEARCH_TYPE_KEY]
 
-                for result in result_list:
-                    await gamewith_scraper.send_message(gw_config, channel, ROLE_ID, result)
+                result_list = []
+
+                if t == common.TYPE_GW:
+                    result_list = await gamewith_scraper.scrape(gw_config, search, driver, id_history_list)
+
+                    for result in result_list:
+                        await gamewith_scraper.send(gw_config, channel, ROLE_ID, result)
+                elif t == common.TYPE_UMADB:
+                    result_list = await umadb_scraper.scrape(gw_config, search, driver, id_history_list)
+
+                    for result in result_list:
+                        await umadb_scraper.send(gw_config, channel, ROLE_ID, result)
+
                 # 検索した結果のIDリストを履歴の先頭に追加し、保存最大数を超えるIDを削除
                 id_history_list = (list(map(lambda x: x[common.RESULT_ID_KEY], result_list)) + id_history_list)[: id_history_max_count]
 
