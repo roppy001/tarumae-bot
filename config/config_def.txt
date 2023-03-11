@@ -87,6 +87,7 @@
 		"sashi" : 0,
 		"oikomi" : 0
 	},
+	{
 		"type" : "umadb",
 		"name" : "",
 		"daihyo" : false,
