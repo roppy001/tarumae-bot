@@ -194,7 +194,7 @@ async def scrape(config, search, driver, id_history_list):
     return result_list
 
 async def send(config, channel, role_id, elm):
-    message = f'<@&{role_id}> \n'
+    message = f'<@&{role_id}> 抽出元:gamewith \n'
     message += "トレーナーID: " + elm[common.RESULT_ID_KEY] + "\n"
     message += "因子: "
     for factor in elm[common.RESULT_FACTOR_LIST_KEY]:

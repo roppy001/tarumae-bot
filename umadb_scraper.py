@@ -110,13 +110,55 @@ async def scrape(config, search, driver, id_history_list):
     common.scroll_element(driver, search_element)
     search_element.click()
 
-    await asyncio.sleep(100)
+    # 検索結果出力待機
+    try:
+        for i in range(100):
+            await asyncio.sleep(1)
+            driver.find_element(By.CSS_SELECTOR,"#__BVID__42 > tbody > tr.b-table-busy-slot")
+    except NoSuchElementException:
+        pass
+    await asyncio.sleep(1)
 
-    return []
+    result_list = []
+
+    result_player_elements = driver.find_elements(By.CSS_SELECTOR, "#__BVID__42 > tbody > tr")
+    for result_player_element in result_player_elements:
+        id = result_player_element.find_element(By.CSS_SELECTOR,"td > div.header > span").text
+
+        # もし履歴にあるIDにヒットした場合は検索を終了する
+        if id in id_history_list:
+            return result_list
+
+        elm = {}
+        
+        elm[common.RESULT_TYPE_KEY] = common.TYPE_UMADB
+
+        elm[common.RESULT_ID_KEY] = id
+
+        elm[common.RESULT_MAIN_IMG_KEY] = { common.IMG_URL_KEY : result_player_element.find_element(By.CSS_SELECTOR,"td > div.row > div.col-md-auto.col-2 > div:nth-child(1) > img").get_attribute("src") }
+
+        elm[common.RESULT_FACTOR_LIST_KEY] = []
+
+        for f in result_player_element.find_elements(By.CSS_SELECTOR, "td > div.row > div.col-10 span > span"):
+            elm[common.RESULT_FACTOR_LIST_KEY].append({ common.FACTOR_NAME_KEY : f.text})
+
+        result_list.append(elm)
+
+    return result_list
 
 async def send(config, channel, role_id, elm):
-    message = f'<@&{role_id}> \n'
+    message = f'<@&{role_id}> 抽出元:ウマ娘DB \n'
+    message += "トレーナーID: " + elm[common.RESULT_ID_KEY] + "\n"
+    message += "因子: "
+    for factor in elm[common.RESULT_FACTOR_LIST_KEY]:
+        message += factor[common.FACTOR_NAME_KEY] + " "
+    message += "\n"
 
-    # await channel.send(message)
+    img = elm[common.RESULT_MAIN_IMG_KEY]
+
+    if common.IMG_URL_KEY in img:
+        message += img[common.IMG_URL_KEY] + "\n"
+
+    await channel.send(message)
 
     return
