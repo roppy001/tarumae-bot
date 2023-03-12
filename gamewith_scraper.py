@@ -24,8 +24,10 @@ async def scrape(config, search, driver, id_history_list):
     # 詳細条件を指定して検索の画面に遷移してクリック
     friends_list = driver.find_element(By.CSS_SELECTOR, "gds-umamusume-friends-list")
     common.scroll_element(driver, friends_list)
+    await asyncio.sleep(1)
     friends_list_sr = friends_list.shadow_root
     friends_list_sr.find_element(By.CSS_SELECTOR, ".-r-umamusume-friends-list__search-wrap button").click()
+    await asyncio.sleep(1)
 
     # 育成ウマ娘指定
     tmp = search[common.SEARCH_NAME_KEY]
@@ -47,6 +49,7 @@ async def scrape(config, search, driver, id_history_list):
     blue_element = friends_list_sr.find_element(By.CSS_SELECTOR,
         "div.-r-common-modal__container ul > li:nth-of-type(5)")
     common.scroll_element(driver, blue_element)
+    await asyncio.sleep(1)
 
     # スピード因子
     tmp = search[common.SEARCH_SPEED_KEY]
@@ -76,6 +79,7 @@ async def scrape(config, search, driver, id_history_list):
     red_element = friends_list_sr.find_element(By.CSS_SELECTOR,
         "div.-r-common-modal__container ul > li:nth-of-type(6)")
     common.scroll_element(driver, red_element)
+    await asyncio.sleep(1)
 
     # 芝因子
     tmp = search[common.SEARCH_TURF_KEY]
@@ -130,6 +134,7 @@ async def scrape(config, search, driver, id_history_list):
     search_element = friends_list_sr.find_element(By.CSS_SELECTOR,
         "div.-r-common-modal__container .-r-umamusume-friends-button")
     common.scroll_element(driver, search_element)
+    await asyncio.sleep(1)
 
     search_element.click()
     await asyncio.sleep(1)
@@ -142,9 +147,9 @@ async def scrape(config, search, driver, id_history_list):
                 result_next = friends_list_sr.find_element(By.CSS_SELECTOR, "div > div.-r-umamusume-friends-list__list-wrap > button.-r-umamusume-friends-button")
                 common.scroll_element(driver, result_next)
                 common.scroll(driver, 0, -100)
-                time.sleep(1)
+                await asyncio.sleep(1)
                 result_next.click()
-                time.sleep(1)
+                await asyncio.sleep(1)
             except NoSuchElementException:
                 break
 

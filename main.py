@@ -4,6 +4,7 @@ import hashlib
 import os
 import datetime
 import asyncio
+from functools import reduce
 
 import chromedriver_binary
 
@@ -83,7 +84,16 @@ async def on_ready():
 
         gw_config = config[common.CONFIG_GW_KEY]
 
+        umadb_config = config[common.CONFIG_UMADB_KEY]
+
         search_list = config[common.CONFIG_SEARCH_LIST_KEY]
+
+        # typeがallに指定されている場合は全検索サイトを検索するよう、設定値を変換する。
+        search_list = reduce(lambda x, y: x + y,
+            map(lambda x: 
+                [x|{common.SEARCH_TYPE_KEY : common.TYPE_GW},
+                 x|{common.SEARCH_TYPE_KEY : common.TYPE_UMADB}]
+                 if x[common.SEARCH_TYPE_KEY] == common.TYPE_ALL else [x] , search_list))
 
         # Chromeを起動
         options = Options()
@@ -109,17 +119,17 @@ async def on_ready():
                     for result in result_list:
                         await gamewith_scraper.send(gw_config, channel, ROLE_ID, result)
                 elif t == common.TYPE_UMADB:
-                    result_list = await umadb_scraper.scrape(gw_config, search, driver, id_history_list)
+                    result_list = await umadb_scraper.scrape(umadb_config, search, driver, id_history_list)
 
                     for result in result_list:
-                        await umadb_scraper.send(gw_config, channel, ROLE_ID, result)
+                        await umadb_scraper.send(umadb_config, channel, ROLE_ID, result)
 
                 # 検索した結果のIDリストを履歴の先頭に追加し、保存最大数を超えるIDを削除
                 id_history_list = (list(map(lambda x: x[common.RESULT_ID_KEY], result_list)) + id_history_list)[: id_history_max_count]
 
                 save_id_history(search_hash, id_history_list)
             except NoSuchElementException:
-                pass
+                print("searching failed:" + json.dumps(search), file=sys.stderr)
 
         driver.quit()
 

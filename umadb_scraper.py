@@ -34,6 +34,7 @@ RED_TYPE_INDEX_STR = {
 }
 
 async def scrape(config, search, driver, id_history_list):
+    search_wait = config[common.CONFIG_UMADB_SEARCH_WAIT_KEY]
 
     # ウマ娘DBを開く
     driver.get("https://uma.pure-db.com/#/search")
@@ -112,7 +113,7 @@ async def scrape(config, search, driver, id_history_list):
 
     # 検索結果出力待機
     try:
-        for i in range(100):
+        for i in range(search_wait):
             await asyncio.sleep(1)
             driver.find_element(By.CSS_SELECTOR,"#__BVID__42 > tbody > tr.b-table-busy-slot")
     except NoSuchElementException:
