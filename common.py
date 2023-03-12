@@ -7,6 +7,7 @@ CONFIG_UMADB_KEY = "umadb"
 CONFIG_SEARCH_LIST_KEY = "search_list"
 
 CONFIG_GW_MAX_NEXT_COUNT_KEY = "max_next_count"
+CONFIG_UMADB_SEARCH_WAIT_KEY = "search_wait"
 
 DATA_DIRECTORY = "data"
 
@@ -41,6 +42,7 @@ IMG_URL_KEY = "url"
 RESULT_FACTOR_LIST_KEY = "factor_list"
 FACTOR_NAME_KEY = "name"
 
+TYPE_ALL = "all"
 TYPE_GW = "gw"
 TYPE_UMADB = "umadb"
 
