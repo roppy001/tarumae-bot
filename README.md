@@ -18,6 +18,7 @@ data/<br>
 　　"max_next_count" : 5  # "もっと見る"の回数制限設定<br>
 　},<br>
 　"umadb" : {<br>
+　　"search_wait" : 60  # 検索の最大待機時間
 　},<br>
 　<br>
 　"search_list" : [<br>
