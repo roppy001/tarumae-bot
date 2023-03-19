@@ -89,11 +89,19 @@ async def on_ready():
         search_list = config[common.CONFIG_SEARCH_LIST_KEY]
 
         # typeがallに指定されている場合は全検索サイトを検索するよう、設定値を変換する。
-        search_list = reduce(lambda x, y: x + y,
-            map(lambda x: 
-                [x|{common.SEARCH_TYPE_KEY : common.TYPE_GW},
-                 x|{common.SEARCH_TYPE_KEY : common.TYPE_UMADB}]
-                 if x[common.SEARCH_TYPE_KEY] == common.TYPE_ALL else [x] , search_list))
+        tmp_list =[]
+        for elm in search_list:
+            if elm[common.SEARCH_TYPE_KEY] == common.TYPE_ALL:
+                tmp = elm.copy()
+                tmp[common.SEARCH_TYPE_KEY] = common.TYPE_GW
+                tmp_list.append(tmp)
+                tmp = elm.copy()
+                tmp[common.SEARCH_TYPE_KEY] = common.TYPE_UMADB
+                tmp_list.append(tmp)
+            else:
+                tmp_list.append(elm)
+        
+        search_list = tmp_list
 
         # Chromeを起動
         options = Options()
