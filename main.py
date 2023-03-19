@@ -143,7 +143,14 @@ async def on_ready():
 
         print("["+now_str()+ "] end searching")
 
-        await asyncio.sleep(config[common.CONFIG_SEARCH_INTERVAL_KEY])
+        for i in range(config[common.CONFIG_SEARCH_INTERVAL_KEY]):
+            # dataの中にSHUTDOWNファイルが置かれた場合はファイルを削除してシャットダウンする
+            if(os.path.isfile(common.SHUTDOWN_PATH)):
+                os.remove(common.SHUTDOWN_PATH)
+                await client.close()
+                return
+            
+            await asyncio.sleep(1)
 
     return
 
