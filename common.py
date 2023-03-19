@@ -1,3 +1,4 @@
+SHUTDOWN_PATH = "data/SHUTDOWN"
 
 CONFIG_PATH = "config/config.txt"
 CONFIG_SEARCH_INTERVAL_KEY = "search_interval"
