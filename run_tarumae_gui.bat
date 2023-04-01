@@ -10,4 +10,6 @@ if not exist config.txt (
 )
 cd ..
 
+set TARUMAE_TEST=YES
+
 python -u main.py >> log\console.log 2>> log\error.log

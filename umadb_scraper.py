@@ -146,7 +146,7 @@ async def scrape(config, search, driver, id_history_list):
 
     return result_list
 
-async def send(config, channel, role_id, elm):
+async def send(config, channel, role_id, elm, test_mode):
     message = f'<@&{role_id}> 抽出元:ウマ娘DB \n'
     message += "トレーナーID: " + elm[common.RESULT_ID_KEY] + "\n"
     message += "因子: "
@@ -159,6 +159,9 @@ async def send(config, channel, role_id, elm):
     if common.IMG_URL_KEY in img:
         message += img[common.IMG_URL_KEY] + "\n"
 
-    await channel.send(message)
+    if test_mode:
+        print(message)
+    else:
+        await channel.send(message)
 
     return
