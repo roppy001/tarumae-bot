@@ -36,7 +36,7 @@ ROLE_ID=os.getenv('TARUMAE_BOT_ROLE_ID')
 LOOP_INTERVAL=os.getenv('TARUMAE_LOOP_INTERVAL', 1800)
 
 # テストモード onの場合は
-TEST_MODE_STR=os.getenv('TARUMAE_TEST', 1800)
+TEST_MODE_STR=os.getenv('TARUMAE_TEST', 'no')
 
 HEADLESS = HEADLESS_STR.lower() in ["on","yes"]
 
