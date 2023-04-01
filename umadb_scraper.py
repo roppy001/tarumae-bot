@@ -50,7 +50,7 @@ async def scrape(config, search, driver, id_history_list):
     i = 1
     for blue_factor in blue_factor_list:
         blue_add_element = driver.find_element(By.CSS_SELECTOR,
-            "#__BVID__32 > div > button")
+            "#blue_factor + button")
         blue_add_element.click()
         await asyncio.sleep(1)
 
@@ -83,7 +83,7 @@ async def scrape(config, search, driver, id_history_list):
     i = 1
     for red_factor in red_factor_list:
         red_add_element = driver.find_element(By.CSS_SELECTOR,
-            "#__BVID__33 > div > button")
+            "#red_factor + button")
         red_add_element.click()
         await asyncio.sleep(1)
 
@@ -114,14 +114,14 @@ async def scrape(config, search, driver, id_history_list):
     try:
         for i in range(search_wait):
             await asyncio.sleep(1)
-            driver.find_element(By.CSS_SELECTOR,"#__BVID__42 > tbody > tr.b-table-busy-slot")
+            driver.find_element(By.CSS_SELECTOR,"#app tbody > tr.b-table-busy-slot")
     except NoSuchElementException:
         pass
     await asyncio.sleep(1)
 
     result_list = []
 
-    result_player_elements = driver.find_elements(By.CSS_SELECTOR, "#__BVID__42 > tbody > tr")
+    result_player_elements = driver.find_elements(By.CSS_SELECTOR, "#app tbody > tr")
     for result_player_element in result_player_elements:
         id = result_player_element.find_element(By.CSS_SELECTOR,"td > div.header > span").text
 
