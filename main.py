@@ -24,7 +24,7 @@ import umadb_scraper
 BOT_TOKEN=os.getenv('TARUMAE_BOT_TOKEN')
 
 # YESの場合、ヘッドレスモードで動作
-HEADLESS_STR=os.getenv('TARUMAE_BOT_HEADLESS')
+HEADLESS_STR=os.getenv('TARUMAE_BOT_HEADLESS', 'no')
 
 # 投稿先チャンネルのID
 CHANNEL_ID=os.getenv('TARUMAE_BOT_CHANNEL')
@@ -35,7 +35,12 @@ ROLE_ID=os.getenv('TARUMAE_BOT_ROLE_ID')
 # ループ間隔 デフォルトは30分
 LOOP_INTERVAL=os.getenv('TARUMAE_LOOP_INTERVAL', 1800)
 
-HEADLESS = HEADLESS_STR and HEADLESS_STR.lower() in ["on","yes"]
+# テストモード onの場合は
+TEST_MODE_STR=os.getenv('TARUMAE_TEST', 1800)
+
+HEADLESS = HEADLESS_STR.lower() in ["on","yes"]
+
+TEST_MODE = TEST_MODE_STR.lower() in ["on","yes"]
 
 # 設定ファイル読込
 def load_config():
@@ -131,12 +136,12 @@ async def main_loop():
                 result_list = await gamewith_scraper.scrape(gw_config, search, driver, id_history_list)
 
                 for result in result_list:
-                    await gamewith_scraper.send(gw_config, channel, ROLE_ID, result)
+                    await gamewith_scraper.send(gw_config, channel, ROLE_ID, result, TEST_MODE)
             elif t == common.TYPE_UMADB:
                 result_list = await umadb_scraper.scrape(umadb_config, search, driver, id_history_list)
 
                 for result in result_list:
-                    await umadb_scraper.send(umadb_config, channel, ROLE_ID, result)
+                    await umadb_scraper.send(umadb_config, channel, ROLE_ID, result, TEST_MODE)
 
             # 検索した結果のIDリストを履歴の先頭に追加し、保存最大数を超えるIDを削除
             id_history_list = (list(map(lambda x: x[common.RESULT_ID_KEY], result_list)) + id_history_list)[: id_history_max_count]
