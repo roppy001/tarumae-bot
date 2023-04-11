@@ -1,3 +1,4 @@
+import sys
 import time
 import json
 import asyncio
@@ -156,6 +157,10 @@ async def scrape(config, search, driver, id_history_list):
         result_list = []
 
         result_player_elements = friends_list_sr.find_elements(By.CSS_SELECTOR, "div > div.-r-umamusume-friends-list__list-wrap > ul > li")
+
+        if len(result_player_elements) == 0:
+            print("searching result is empty:" + json.dumps(search), file=sys.stderr)
+
         time.sleep(1)
 
         for result_player_element in result_player_elements:
