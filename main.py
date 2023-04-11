@@ -175,7 +175,7 @@ class MainClient(discord.Client):
         await self.wait_until_ready()  # wait until the bot logs in
 
     async def on_message(self, message):
-        if message.content == '.shutdown':
+        if message.content in ['.shutdown', '.shutdown_tarumae']:
             await client.close()
 
 its = discord.Intents.default()

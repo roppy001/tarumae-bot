@@ -1,3 +1,4 @@
+import sys
 import time
 import json
 import asyncio
@@ -122,6 +123,10 @@ async def scrape(config, search, driver, id_history_list):
     result_list = []
 
     result_player_elements = driver.find_elements(By.CSS_SELECTOR, "#app tbody > tr")
+
+    if len(result_player_elements) == 0:
+        print("searching result is empty:" + json.dumps(search), file=sys.stderr)
+
     for result_player_element in result_player_elements:
         id = result_player_element.find_element(By.CSS_SELECTOR,"td > div.header > span").text
 
