@@ -8,7 +8,7 @@
 	},
 	"search_list" : [
 	{
-		"type" : "umadb",
+		"type" : "all",
 		"name" : "",
 		"daihyo" : true,
 		"speed" : 0,
@@ -29,7 +29,7 @@
 		"skill" : [{"name" : "下り坂巧者", "star" : 2}]
 	},
 	{
-		"type" : "umadb",
+		"type" : "all",
 		"name" : "",
 		"daihyo" : true,
 		"speed" : 0,
