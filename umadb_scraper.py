@@ -50,11 +50,13 @@ async def scrape(config, search, driver, id_history_list):
 
     i = 1
     for blue_factor in blue_factor_list:
+        # 追加ボタン選択
         blue_add_element = driver.find_element(By.CSS_SELECTOR,
             "#blue_factor + button")
         blue_add_element.click()
         await asyncio.sleep(1)
 
+        # 因子種類選択
         blue_type_pulldown_element = driver.find_element(By.CSS_SELECTOR,
             "#blue_factor > div:nth-child("+str(i)+") > div:nth-of-type(1) > div > div > div.gb-field-select__field.js-tag-for-autofocus > i")
         blue_type_pulldown_element.click()
@@ -64,10 +66,14 @@ async def scrape(config, search, driver, id_history_list):
             "#blue_factor > div:nth-child("+str(i)+") > div:nth-of-type(1) > div > div > div.gb-field-select__options > div:nth-child("+BLUE_TYPE_INDEX_STR[blue_factor[0]]+")")
         blue_type_item_element.click()
 
+        # 星数選択
         Select(driver.find_element(By.CSS_SELECTOR,
             "#blue_factor > div:nth-child("+str(i)+") > div:nth-of-type(2) > select")).select_by_value(str(blue_factor[1]))
-        #Select(driver.find_element(By.CSS_SELECTOR,
-        #    "#blue_factor > div:nth-child("+str(i)+") > div:nth-of-type(3) > select")).select_by_value("1")
+
+        # 代表条件選択
+        if(search[common.SEARCH_DAIHYO_KEY]):
+            Select(driver.find_element(By.CSS_SELECTOR,
+                "#blue_factor > div:nth-child("+str(i)+") > div:nth-of-type(3) > select")).select_by_value("1")
 
         i = i + 1
 
@@ -83,11 +89,13 @@ async def scrape(config, search, driver, id_history_list):
 
     i = 1
     for red_factor in red_factor_list:
+        # 追加ボタン選択
         red_add_element = driver.find_element(By.CSS_SELECTOR,
             "#red_factor + button")
         red_add_element.click()
         await asyncio.sleep(1)
 
+        # 因子種類選択
         red_type_pulldown_element = driver.find_element(By.CSS_SELECTOR,
             "#red_factor > div:nth-child("+str(i)+") > div:nth-of-type(1) > div > div > div.gb-field-select__field.js-tag-for-autofocus > i")
         red_type_pulldown_element.click()
@@ -97,14 +105,51 @@ async def scrape(config, search, driver, id_history_list):
             "#red_factor > div:nth-child("+str(i)+") > div:nth-of-type(1) > div > div > div.gb-field-select__options > div:nth-child("+RED_TYPE_INDEX_STR[red_factor[0]]+")")
         red_type_item_element.click()
 
+        # 星数選択
         Select(driver.find_element(By.CSS_SELECTOR,
             "#red_factor > div:nth-child("+str(i)+") > div:nth-of-type(2) > select")).select_by_value(str(red_factor[1]))
 
-        #Select(driver.find_element(By.CSS_SELECTOR,
-        #    "#red_factor > div:nth-child("+str(i)+") > div:nth-of-type(3) > select")).select_by_value("1")
+        # 代表条件選択
+        if(search[common.SEARCH_DAIHYO_KEY]):
+            Select(driver.find_element(By.CSS_SELECTOR,
+                "#red_factor > div:nth-child("+str(i)+") > div:nth-of-type(3) > select")).select_by_value("1")
 
         i = i + 1
 
+    # 共通スキル選択
+    i = 1
+    for skill_factor in search[common.SEARCH_SKILL_KEY]:
+        # 追加ボタン選択
+        skill_add_element = driver.find_element(By.CSS_SELECTOR,
+            "#common_factor_skill + button")
+        skill_add_element.click()
+        await asyncio.sleep(1)
+
+        # 因子種類選択
+        skill_type_pulldown_element = driver.find_element(By.CSS_SELECTOR,
+            "#common_factor_skill > div:nth-child("+str(i)+") > div:nth-of-type(1) > div > div > div.gb-field-select__field.js-tag-for-autofocus > i")
+        skill_type_pulldown_element.click()
+        await asyncio.sleep(1)
+
+        skill_type_item_elements = driver.find_elements(By.CSS_SELECTOR,
+            "#common_factor_skill > div:nth-child("+str(i)+") > div:nth-of-type(1) > div > div > div.gb-field-select__options > div > span")
+
+        for skill_type_item_element in skill_type_item_elements:
+            if (skill_type_item_element.text == skill_factor[common.SEARCH_FACTOR_NAME_KEY]):
+                skill_type_item_element.click()
+
+        # 星数選択
+        Select(driver.find_element(By.CSS_SELECTOR,
+            "#common_factor_skill > div:nth-child("+str(i)+") > div:nth-of-type(2) > select")).select_by_value(str(skill_factor[common.SEARCH_FACTOR_STAR_KEY]))
+
+        # 代表条件選択
+        if(search[common.SEARCH_DAIHYO_KEY]):
+            Select(driver.find_element(By.CSS_SELECTOR,
+                "#common_factor_skill > div:nth-child("+str(i)+") > div:nth-of-type(3) > select")).select_by_value("1")
+
+        i = i + 1
+
+    # 検索ボタン押下
     search_element = driver.find_element(By.CSS_SELECTOR,
             "#app > div > div > div.btn-group > button.btn.btn-success")
 
@@ -130,9 +175,9 @@ async def scrape(config, search, driver, id_history_list):
     for result_player_element in result_player_elements:
         id = result_player_element.find_element(By.CSS_SELECTOR,"td > div.header > span").text
 
-        # もし履歴にあるIDにヒットした場合は検索を終了する
+        # もし履歴にあるIDにヒットした場合はスキップする
         if id in id_history_list:
-            return result_list
+            continue
 
         elm = {}
         

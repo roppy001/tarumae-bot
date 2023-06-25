@@ -132,6 +132,23 @@ async def scrape(config, search, driver, id_history_list):
     if tmp!=0:
         Select(red_element.find_element(By.CSS_SELECTOR,"div > div:nth-of-type(10) > div > select")).select_by_visible_text(FACTOR_STRINGS[tmp])
 
+    # スキル因子選択位置にスクロール
+    skill_element = friends_list_sr.find_element(By.CSS_SELECTOR,
+        "div.-r-common-modal__container ul > li:nth-of-type(8)")
+    common.scroll_element(driver, skill_element)
+    await asyncio.sleep(1)
+
+    # スキル因子選択 1個の検索のみ対応
+    if(len(search[common.SEARCH_SKILL_KEY])>0):
+        skill_factor=search[common.SEARCH_SKILL_KEY][0]
+
+        skill_element.find_element(By.CSS_SELECTOR,"div > div.-r-umamusume-friends-search-modal__list__skill-contents__list > div > input").send_keys(skill_factor[common.SEARCH_FACTOR_NAME_KEY])
+
+        Select(skill_element.find_element(By.CSS_SELECTOR,"div > div.-r-umamusume-friends-search-modal__list__skill-contents__list > select")).select_by_visible_text(FACTOR_STRINGS[skill_factor[common.SEARCH_FACTOR_STAR_KEY]])
+
+    await asyncio.sleep(1)
+
+
     search_element = friends_list_sr.find_element(By.CSS_SELECTOR,
         "div.-r-common-modal__container .-r-umamusume-friends-button")
     common.scroll_element(driver, search_element)

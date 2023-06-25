@@ -36,6 +36,10 @@ SEARCH_SENKOU_KEY = "senkou"
 SEARCH_SASHI_KEY = "sashi"
 SEARCH_OIKOMI_KEY = "oikomi"
 
+SEARCH_SKILL_KEY = "skill"
+SEARCH_FACTOR_NAME_KEY = "name"
+SEARCH_FACTOR_STAR_KEY = "star"
+
 RESULT_TYPE_KEY = "type"
 RESULT_ID_KEY = "id"
 RESULT_MAIN_IMG_KEY = "main_img"
