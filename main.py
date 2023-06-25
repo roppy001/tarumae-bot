@@ -6,6 +6,7 @@ import datetime
 import asyncio
 import sys
 from functools import reduce
+import io
 
 import chromedriver_binary
 
@@ -19,6 +20,9 @@ from discord.ext import tasks
 import common
 import gamewith_scraper
 import umadb_scraper
+
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 
 # BOTのトークン
 BOT_TOKEN=os.getenv('TARUMAE_BOT_TOKEN')
