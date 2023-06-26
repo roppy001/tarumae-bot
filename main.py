@@ -21,9 +21,6 @@ import common
 import gamewith_scraper
 import umadb_scraper
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
-
 # BOTのトークン
 BOT_TOKEN=os.getenv('TARUMAE_BOT_TOKEN')
 
@@ -45,6 +42,11 @@ TEST_MODE_STR=os.getenv('TARUMAE_TEST', 'no')
 HEADLESS = HEADLESS_STR.lower() in ["on","yes"]
 
 TEST_MODE = TEST_MODE_STR.lower() in ["on","yes"]
+
+if(TEST_MODE):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+
 
 # 設定ファイル読込
 def load_config():
@@ -97,11 +99,16 @@ async def main_loop():
 
     id_history_max_count = config[common.CONFIG_ID_HISTORY_COUNT_MAX_KEY]
 
+    living_report = config[common.CONFIG_LIVING_REPORT_KEY]
+
     gw_config = config[common.CONFIG_GW_KEY]
 
     umadb_config = config[common.CONFIG_UMADB_KEY]
 
     search_list = config[common.CONFIG_SEARCH_LIST_KEY]
+
+    if(living_report and not TEST_MODE):
+        await channel.send("因子検索開始")
 
     # typeがallに指定されている場合は全検索サイトを検索するよう、設定値を変換する。
     tmp_list =[]
